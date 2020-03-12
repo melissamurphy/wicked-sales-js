@@ -1,16 +1,15 @@
 import React from 'react';
 
 function ProductListItem(props) {
+  const product = props.product;
   return (
     <div className="col-4 mb-4">
-      <div className="card">
-        {/* .card-img-top/bottom for the card's 'image cap' [<--like header/footer] */}
-        <img src="/images/snuggie.jpg" alt="shake-weight" className="card-img-top"/>
-        {/* "The building block of a card is the .card-body. Use it whenever you need a padded section within a card." */}
+      <div className="card shadow-sm">
+        <img src={product.image} alt={product.name} className="card-img-top"/>
         <div className="card-body">
-          <h5 className="card-title"> Card title </h5>
-          <p className="card-text text-muted"> Price </p>
-          <p className="card-text"> Description </p>
+          <h5 className="card-title"> {product.name} </h5>
+          <p className="card-text text-muted"> {`$${(product.price / 100).toFixed(2)}`} </p>
+          <p className="card-text"> {product.shortDescription} </p>
         </div>
       </div>
     </div>
@@ -38,11 +37,11 @@ class ProductList extends React.Component {
   }
 
   render() {
-    // console.log('this.state', this.state);
     return (
-      <div className="row-cols-3">
-        {/* Responsive 'row-cols-#' creates a row AND sets the # of child-columns per row */}
-        <ProductListItem />
+      <div className="container">
+        <div className="row row-cols-3 my-5">
+          {this.state.products.map(product => <ProductListItem product={product} key={product.productId}/>)}
+        </div>
       </div>
 
     );
