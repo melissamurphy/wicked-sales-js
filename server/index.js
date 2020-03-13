@@ -32,27 +32,20 @@ app.get('/api/products', (req, res, next) => {
 //
 app.get('/api/products/:productId', (req, res, next) => {
   const productId = req.params.productId;
-  const paramz = [productId];
-  // Paramaterized query: Rather than concatenate params right into the sql command, pass them (as 2nd argument in .query) in array to the PostgreSQL server,
-  // to screen through "battle-tested parameter substitution code"
-
   const sql = `
     select *
       from "products"
       where "productId" = $1
   `;
-  db.query(sql, paramz)
+  db.query(sql, [productId])
     .then(result => {
-      // Check if columns were found at the requested row (i.e. under that productId)
-      // Note if no object found for that row, result.rows will be an empty array (truthy); results.rows[0] will be undefined (falsy)
       if (result.rows[0]) {
         res.json(result.rows[0]);
       } else {
-        next(new ClientError(`No product found with Id ${productId}`, 404)); // creates a client error (see 'client-error.js') and passes in as argument to next() method of express if the product wasn't found
+        next(new ClientError(`No product found with Id ${productId}`, 404));
       }
     })
-    .catch(err => next(err)); // Something goes wrong with the query and the Promise settles to rejected "500 Internal Server Error server error response code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request."
-  // "The Promise returned by catch() is rejected if onRejected [callback] throws an error or returns a Promise which is itself rejected; otherwise, it is resolved."
+    .catch(err => next(err));
 });
 
 app.use('/api', (req, res, next) => {
