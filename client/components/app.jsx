@@ -11,7 +11,7 @@ export default class App extends React.Component {
         <Header />
         <ProductDetails />
         <div>
-          {/* <ProductList /> */}
+          <ProductList />
         </div>
       </div>
     );
