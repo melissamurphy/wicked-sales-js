@@ -9,7 +9,7 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount() {
-    this.getProductDetails(1);
+    this.getProductDetails(this.props.productId);
   }
 
   getProductDetails(productId) {
