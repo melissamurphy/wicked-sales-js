@@ -25,7 +25,7 @@ class ProductList extends React.Component {
     return (
       <div className="container">
         <div className="row row-cols-3 my-5">
-          {this.state.products.map(product => <ProductListItem product={product} key={product.productId}/>)}
+          {this.state.products.map(product => <ProductListItem setView={this.props.setView} product={product} key={product.productId}/>)}
         </div>
       </div>
 

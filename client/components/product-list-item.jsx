@@ -4,7 +4,7 @@ export default function ProductListItem(props) {
   const product = props.product;
   return (
     <div className="col-4 mb-4">
-      <div className="card shadow-sm">
+      <div className="card px-3 shadow-sm" onClick={() => props.setView('details', { productId: product.productId })}>
         <img src={product.image} alt={product.name} className="card-img-top" />
         <div className="card-body">
           <h5 className="card-title"> {product.name} </h5>
