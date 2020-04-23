@@ -9,10 +9,7 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount() {
-    // console.log('this.props in ProductDetails', this.props);
-    // console.log('this.props.params.productId', this.props.params.productId);
-    // console.log('product-details:', this.getProductDetails(this.props.params.productId));
-    this.getProductDetails(this.props.params);
+    this.getProductDetails(this.props.params.productId);
   }
 
   getProductDetails(productId) {

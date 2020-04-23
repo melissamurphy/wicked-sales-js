@@ -17,6 +17,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    // console.log('this.state.view.params', this.state.view.params);
     if (this.state.view.name === 'catalog') {
       return (
         <div>
@@ -28,7 +29,7 @@ export default class App extends React.Component {
       );
     }
     return (
-      <ProductDetails params={2} setView={this.setView} />
+      <ProductDetails params={this.state.view.params} setView={this.setView} />
     );
   }
 }
