@@ -28,7 +28,7 @@ export default class App extends React.Component {
       );
     }
     return (
-      <ProductDetails setView={this.setView}/>
+      <ProductDetails params={2} setView={this.setView} />
     );
   }
 }
