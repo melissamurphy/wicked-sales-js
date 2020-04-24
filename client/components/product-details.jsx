@@ -33,7 +33,7 @@ export default class ProductDetails extends React.Component {
         <div className="row">
           <div className="column">
             <div className="card px-3 bg-light">
-              <p className="text-muted pt-3">{'<'} Back to catalog</p>
+              <p onClick={() => this.props.setView('catalog', {})} className="text-muted pt-3">{'<'} Back to catalog</p>
               <div className="row">
                 <div className="column">
                   <img src={product.image} alt={product.name}/>
