@@ -19,6 +19,11 @@ app.get('/api/health-check', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// new endpoint to your Express.js server that handles GET requests to / api / cart.The endpoint should simply respond with an empty JSON array for now.
+app.get('/api/cart', (req, res, next) => {
+  res.json({});
+});
+
 app.get('/api/products', (req, res, next) => {
   const sql = `
     select "productId", "name", "price", "image", "shortDescription"
