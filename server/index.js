@@ -40,11 +40,28 @@ app.post('/api/cart', (req, res, next) => {
   db.query(sql, [req.body.productId])
     .then(result => {
       if (result.rows[0]) {
-        res.json(result.rows[0]);
+        const price = result.rows[0].price;
+        // res.json(result.rows[0]);
+        // Insert a new row into the "cartId" and "createdAt" columns of the "carts" table
+        const sql2 = `
+        insert into "carts" ("cartId", "createdAt")
+        values (default, default)
+        returning "cartId"
+        `;
+        return (
+          db.query(sql2)
+            .then(result => {
+              const cartId = result.rows[0].cartId;
+              // console.log('first result:', obj, 'second result for cartId:', result.rows[0]);
+              return { price: price, cartId: cartId };
+            })
+        );
       } else {
         next(new ClientError(`No price under product Id ${req.body.productId}`, 400));
       }
     })
+  // return the created cartId as well as the price you retrieved in an object.
+    // .then(obj => console.log(obj))
     .catch(err => next(err));
 });
 
