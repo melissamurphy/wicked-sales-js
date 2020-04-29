@@ -31,6 +31,21 @@ app.post('/api/cart', (req, res, next) => {
   if (!parseInt(req.body.productId, 10)) {
     return res.status(400).json({ error: 'Invalid productId' });
   }
+  // select the "price" of the product with the matching "productId"
+  const sql = `
+    select "price"
+      from "products"
+      where "productId" = $1
+  `;
+  db.query(sql, [req.body.productId])
+    .then(result => {
+      if (result.rows[0]) {
+        res.json(result.rows[0]);
+      } else {
+        next(new ClientError(`No price under product Id ${req.body.productId}`, 400));
+      }
+    })
+    .catch(err => next(err));
 });
 
 app.get('/api/products', (req, res, next) => {
