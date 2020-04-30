@@ -38,11 +38,12 @@ app.post('/api/cart', (req, res, next) => {
       where "productId" = $1
   `;
   db.query(sql, [req.body.productId])
+
+  // Insert a new row into the "cartId" and "createdAt" columns of the "carts" table
     .then(result => {
       if (result.rows[0]) {
         const price = result.rows[0].price;
         // res.json(result.rows[0]);
-        // Insert a new row into the "cartId" and "createdAt" columns of the "carts" table
         const sql2 = `
         insert into "carts" ("cartId", "createdAt")
         values (default, default)
@@ -61,7 +62,27 @@ app.post('/api/cart', (req, res, next) => {
       }
     })
   // return the created cartId as well as the price you retrieved in an object.
-    // .then(obj => console.log(obj))
+
+    .then(obj => {
+      // console.log(obj)
+      // Assign the cartId you got to the cartId property of the req.session object.
+      req.session.cartId = obj.cartId;
+      const sql = `
+      insert into "cartItems" ("cartId", "productId", "price")
+      values ($1, $2, $3)
+      returning "cartItemId"
+      `;
+      return (
+        db.query(sql, [obj.cartId, req.body.productId, obj.price])
+          .then(result => {
+            const cartItemId = result.rows[0].cartItemId;
+            return { cartItemId: cartItemId };
+          })
+      );
+    })
+    .then(result => {
+      // console.log('result:', result);
+    })
     .catch(err => next(err));
 });
 
